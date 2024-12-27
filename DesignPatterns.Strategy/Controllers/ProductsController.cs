@@ -61,7 +61,7 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Id,Name,Price,Stock,UserId,CreatedDate")] Product product)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
