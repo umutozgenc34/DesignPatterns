@@ -1,7 +1,9 @@
 using DesignPatterns.Observer.Models;
 using DesignPatterns.Observer.Observer;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,8 @@ builder.Services.AddSingleton<UserObserverSubject>(sp =>
 
     return userObserverSubject;
 });
+
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 

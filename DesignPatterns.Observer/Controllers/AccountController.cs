@@ -1,11 +1,14 @@
 ﻿using BaseProject.Controllers;
+using DesignPatterns.Observer.Events;
 using DesignPatterns.Observer.Models;
+using DesignPatterns.Observer.Observer;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DesignPatterns.Observer.Controllers;
 
-public class AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : Controller
+public class AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,UserObserverSubject userObserverSubject,IMediator mediator) : Controller
 {
     public IActionResult Login()
     {
@@ -59,6 +62,8 @@ public class AccountController(UserManager<AppUser> userManager, SignInManager<A
 
         if (identityResult.Succeeded)
         {
+            //userObserverSubject.NotifyObservers(appUser);
+            await mediator.Publish(new UserCreatedEvent() { AppUser = appUser });
             ViewBag.message = "Üyelik işlemi başarıyla gerçekleşti.";
         }
         else
